@@ -44,5 +44,7 @@ if __name__ == "__main__" :
     print("risk:", gdf_1_point_risk)
 
     # multiple addresses: give a dataframe with coordinates in columns 'lat' and 'lon'
-    lat = [50.85015136702573]
-    df = pd.DataFrame([[lat, lon]], columns = ["lat", "lon"])
+    df = pd.DataFrame([[50.85015136702573, 4.339041499920154],
+                       [51.194859, 4.344027],
+                       [51.067459, 4.184039],
+                       [50.921634, 4.704236]], columns = ["lat", "lon"])
