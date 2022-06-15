@@ -18,7 +18,7 @@ def add_risk_to_df(df, risk_map) :
 
     # merge the result to the initial dataframe
     res = pd.merge(gdf, risk_gdf[['lat', 'lon', 'FLOOD_RISK', 'TYPEALEA', 'src_file']], on = ['lat', 'lon'], how = 'left')
-    test.FLOOD_RISK = test.FLOOD_RISK.fillna("No risk")
+    res.FLOOD_RISK = res.FLOOD_RISK.fillna("No risk")
     
     return res, risk_gdf
 
@@ -38,6 +38,8 @@ def get_risk_from_coordinates(lat, lon, risk_map) :
     return gdf, risk
 
 
+
+
 if __name__ == "__main__" :
     # a few tests on the functions above:
     
@@ -48,7 +50,7 @@ if __name__ == "__main__" :
     lat = 50.85015136702573
     lon = 4.339041499920154
 
-    gdf_1_point, gdf_1_point_risk, risk_1_point = get_risk_from_coordinates(lat, lon, flooding_map)
+    gdf_1_point, risk_1_point = get_risk_from_coordinates(lat, lon, flooding_map)
     print("geometries df:", gdf_1_point)
 
     # multiple addresses: give a dataframe with coordinates in columns 'lat' and 'lon'
@@ -58,3 +60,4 @@ if __name__ == "__main__" :
                        [50.921634, 4.704236]], columns = ["lat", "lon"])
     
     gdf, risk_gdf = add_risk_to_df(df, flooding_map)
+    print(risk_gdf)
