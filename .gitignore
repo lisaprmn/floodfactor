@@ -1,1 +1,4 @@
 data/
+xmlconvert/
+sqlpush/belgium_addresses.csv
+sqlpush/__pycache__/
