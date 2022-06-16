@@ -6,12 +6,9 @@ import os
 
 def add_risk_to_df(df, risk_map) :
     # add geometry
-    crs = 'EPSG:4326' # coordinate reference system used for lon / lat
+    crs = 'EPSG:31370' # coordinate reference system used for lon / lat
     geometry = [Point(xy) for xy in zip(df['lon'], df['lat'])]
     gdf = gpd.GeoDataFrame(df, crs = crs, geometry = geometry)
-    
-    # put in coordinates system used by belgian maps
-    gdf = gdf.to_crs(epsg = 31370)
 
     # find points with flooding risks
     risk_gdf = gpd.sjoin(gdf, risk_map, op = "within") # return only points in flooding map
@@ -23,21 +20,21 @@ def add_risk_to_df(df, risk_map) :
     return res, risk_gdf
 
 
-def get_risk_from_coordinates(lat, lon, risk_map) :
-    print(f"\nadd flood factor for lat: {lat}, lon: {lon}")
-    df = pd.DataFrame([[lat, lon]], columns = ["lat", "lon"])
-    gdf, risk_gdf = add_risk_to_df(df, risk_map)
+def plot_map_points_at_risk(flooding_map, risk_gdf, title, img_name) :
+    print("\nPreparing map...")
+    # append both geodataframes together
+    res = pd.merge(flooding_map[[]], risk_gdf[['FLOOD_RISK', 'TYPEALEA', 'geometry', 'src_file']])
+    
+    # need to find out here how to use the RGB column without making the legend disappear
+    gdf.plot(figsize = (24, 16), column = gdf.FLOOD_RISK, label = gdf.FLOOD_RISK, legend = True)
+    plt.xlabel(gdf.crs.axis_info[0].name + ', ' + gdf.crs.axis_info[0].unit_auth_code + " - " + gdf.crs.axis_info[0].unit_name)
+    plt.ylabel(gdf.crs.axis_info[1].name + ', ' + gdf.crs.axis_info[1].unit_auth_code + " - " + gdf.crs.axis_info[1].unit_name)
+    plt.title(title)
 
-    if len(risk_gdf) == 0:
-        risk = "No risk"
-    else:
-        risk = "Flooding Risk"
-
-    print(risk)
-
-    return gdf, risk
-
-
+    img_name = os.path.join(img_folder, img_name)
+    plt.savefig(img_name)
+    print(f"\nMap saved to {img_name}")
+    #plt.show()
 
 
 if __name__ == "__main__" :
@@ -47,13 +44,14 @@ if __name__ == "__main__" :
     flooding_map = gpd.read_file(os.path.join(data_folder, 'BE_flooding_map.zip'))
 
     # single address: give coordinates
-    lat = 50.85015136702573
-    lon = 4.339041499920154
+    # lat = 50.85015136702573
+    # lon = 4.339041499920154
 
-    gdf_1_point, risk_1_point = get_risk_from_coordinates(lat, lon, flooding_map)
-    print("geometries df:", gdf_1_point)
+    # gdf_1_point, risk_1_point = get_risk_from_coordinates(lat, lon, flooding_map)
+    # print("geometries df:", gdf_1_point)
 
     # multiple addresses: give a dataframe with coordinates in columns 'lat' and 'lon'
+    """
     df = pd.DataFrame([[50.85015136702573, 4.339041499920154],
                        [51.194859, 4.344027],
                        [51.067459, 4.184039],
@@ -61,3 +59,4 @@ if __name__ == "__main__" :
     
     gdf, risk_gdf = add_risk_to_df(df, flooding_map)
     print(risk_gdf)
+    """

@@ -66,18 +66,30 @@ VLAANDEREN_Overstromingsgevoelige_gebieden_2017["RGB"] = VLAANDEREN_Overstroming
 print("\nPut all data on one map")
 
 # select and rename relevant columns for Wallonia
-WALLONIE_selecion = Wallonie_ALEA_map[["OBJECTID", "LOCALID", "TYPEALEA", "CODEALEA", "VALEUR", "RGB", "geometry", "src_file"]]
-WALLONIE_selecion.loc[:, "FLOOD_RISK"] = WALLONIE_selecion.loc[:, "VALEUR"]
+WALLONIE_selecion = Wallonie_ALEA_map[["OBJECTID", "LOCALID", "TYPEALEA", "VALEUR", "RGB", "geometry", "src_file"]]
+WALLONIE_selecion.columns = ["OBJECTID", "LOCALID", "TYPEALEA", "RISK_LEVEL", "RGB", "geometry", "src_file"]
 
 # select and rename relevant columns for Flanders
 VLAANDEREN_selection = VLAANDEREN_Overstromingsgevoelige_gebieden_2017[["OIDN", "UIDN", "DEFOVSTRGV", "RGB", "geometry", "src_file"]]
-VLAANDEREN_selection.columns = ["OBJECTID", "LOCALID", "TYPEALEA", "RGB", "geometry", "src_file"]
-VLAANDEREN_selection.loc[:, "FLOOD_RISK"] = VLAANDEREN_selection.loc[:, "TYPEALEA"]
+VLAANDEREN_selection.columns = ["OBJECTID", "LOCALID", "RISK_LEVEL", "RGB", "geometry", "src_file"]
 
 # concatenate datasets and export to shapefile
 whole_map = pd.concat([WALLONIE_selecion, VLAANDEREN_selection], axis = 0)
 whole_map["RGB_STR"] = whole_map["RGB"].apply(lambda x : str(x[0]) + "," + str(x[1]) + "," + str(x[2]))
 
+risk_level_dic = {"Aléa moyen" : "medium",
+                  "Aléa élevé" : "high",
+                  "Aléa faible" : "low",
+                  "Aléa très faible" : "very low",
+                  "Effectief overstromingsgevoelig gebied" : "effective",
+                  "Mogelijk overstromingsgevoelig gebied" : "potential"}
+
+type_alea_dic = {"Ruissellement" : "run-off",
+                 "Débordement & ruissellement" : "overflow & run-off",
+                 "Débordement" : "overflow"}
+
+whole_map.TYPEALEA = whole_map.TYPEALEA.map(type_alea_dic)
+whole_map.RISK_LEVEL = whole_map.RISK_LEVEL.map(risk_level_dic)
 
 # export to .zip file
 file_name = os.path.join(data_folder, 'BE_flooding_map')
@@ -105,7 +117,7 @@ print(f"\nDataset saved to {file_name}")
 def plot_map(gdf, title, img_name) :
     print("\nPreparing map...")
     # need to find out here how to use the RGB column without making the legend disappear
-    gdf.plot(figsize = (24, 16), column = gdf.FLOOD_RISK, label = gdf.FLOOD_RISK, legend = True)
+    gdf.plot(figsize = (24, 16), column = gdf.RISK_LEVEL, label = gdf.RISK_LEVEL, legend = True)
     plt.xlabel(gdf.crs.axis_info[0].name + ', ' + gdf.crs.axis_info[0].unit_auth_code + " - " + gdf.crs.axis_info[0].unit_name)
     plt.ylabel(gdf.crs.axis_info[1].name + ', ' + gdf.crs.axis_info[1].unit_auth_code + " - " + gdf.crs.axis_info[1].unit_name)
     plt.title(title)
