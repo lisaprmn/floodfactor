@@ -19,5 +19,10 @@ CREATE TABLE [dbo].[belgium_addresses]
 	  [streetname_fr] NVARCHAR(500),
 	  [streetname_nl] NVARCHAR(500),
 	  [region_code] NVARCHAR(255),
-	  [status] NVARCHAR(50)
+	  [status] NVARCHAR(50),
+	  [risk_level] NVARCHAR(50),
+	  [alea_type] NVARCHAR(50),
+	  [map_object_id] ?,
+	  [map_local_id],
+	  [map_src_file] NVARCHAR(100)
 )
