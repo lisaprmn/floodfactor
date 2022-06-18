@@ -1,4 +1,6 @@
 data/
 xmlconvert/
 sqlpush/belgium_addresses.csv
+sqlpush/BE_flooding_map.zip
+
 sqlpush/__pycache__/

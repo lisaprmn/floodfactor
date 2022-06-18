@@ -4,10 +4,10 @@ Install requirements:
 - pyodbc
 '''
 
-
 import pandas as pd
 from config import *
 import sqlstd
+from add_flood_factor import *
 
 
 def looppush(config, tables_dict):
@@ -32,11 +32,14 @@ def looppush(config, tables_dict):
 # Get dataframe(s) to be pushed
 df = pd.read_csv(inputfilepath, index_col=None, encoding="ISO-8859-1", low_memory=False)
 
+# add flood factor to dataframe
+df_risk = add_risk_factor(df)
+
 # Specify database structure and associated input data dataframe
 tables_dict = {'belgiumaddresses': {  # arbitrary name for the table to push to
                     'TableName': 'belgium_addresses',  # database table name
                     'Schema': 'dbo',  # database table schema, ex: 'dwh', 'temp', 'prod'...
-                    'Dataframe': df
+                    'Dataframe': df_risk
                     }}
 
 # Run push

@@ -4,6 +4,14 @@ config = {}
 
 # Settings for local filepath
 inputfilepath = "belgium_addresses.csv"
+floodingmap = "BE_flooding_map.zip"
+
+# name of the coordinates columns
+x_coordinate = "EPSG:31370_x"
+y_coordinate = "EPSG:31370_y"
+
+# coordinates system used in flooding risk map
+crs = "EPSG:31370"
 
 # Push types
 config['batchsize'] = 500000  # batch size of data pushed (number of rows), reduce to avoid database timeout error
