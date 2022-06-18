@@ -22,7 +22,7 @@ CREATE TABLE [dbo].[belgium_addresses]
 	  [status] NVARCHAR(50),
 	  [risk_level] NVARCHAR(50),
 	  [alea_type] NVARCHAR(50),
-	  [map_object_id] ?,
-	  [map_local_id],
+	  [map_object_id] FLOAT,
+	  [map_local_id] NVARCHAR(100),
 	  [map_src_file] NVARCHAR(100)
 )
