@@ -1,10 +1,10 @@
 CREATE TABLE [dbo].[belgium_addresses]
 (
+	  [address_id] INT NOT NULL,
       [EPSG_31370_x] FLOAT,
 	  [EPSG_31370_y] FLOAT,
 	  [EPSG_4326_lat] FLOAT,
 	  [EPSG_4326_lon] FLOAT,
-	  [address_id] INT NOT NULL,
 	  [box_number] NVARCHAR(50),
 	  [house_number] NVARCHAR(50),
 	  [municipality_id] INT,
