@@ -38,7 +38,7 @@ def add_risk_factor(df_addresses) :
                    on = [x_coordinate, y_coordinate], how = 'left').drop_duplicates()
     res.risk_level = res.risk_level.fillna("No risk")
     
-    print(f"{len(res)} rows returned after join with flooding risk map:")
+    print(f"{len(res)} rows returned after joining with flooding risk map:")
     print(res.risk_level.value_counts())
 
     return res
