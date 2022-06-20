@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[belgium_addresses]
 	  [municipality_name_de] NVARCHAR(100),
 	  [municipality_name_fr] NVARCHAR(100),
 	  [municipality_name_nl] NVARCHAR(100),
-	  [postcode] SMALLINT,
+	  [postcode] INT,
 	  [postname_fr] NVARCHAR(500),
 	  [postname_nl] NVARCHAR(500),
 	  [street_id] INT,
@@ -27,7 +27,6 @@ CREATE TABLE [dbo].[flooding_risk]
 	[address_id] INT NOT NULL,
 	[risk_level] NVARCHAR(50),
 	[alea_type] NVARCHAR(50),
-	[geometry] NVARCHAR(100),
 	[map_object_id] FLOAT,
 	[map_local_id] NVARCHAR(100),
 	[map_src_file] NVARCHAR(100)

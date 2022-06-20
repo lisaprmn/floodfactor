@@ -12,7 +12,7 @@ def add_risk_factor(df_addresses) :
     # import addresses
     # for some rows, the x, y coordinates are missing -> sepzarate in different dataframes
     df_ok = df_addresses[df_addresses[x_coordinate] != 0]
-    print(f"{len(df_ok)} rows with correct coordinates")
+    print(f"{len(df_ok)} rows with {crs} coordinates")
     geometry = [Point(xy) for xy in zip(df_ok[x_coordinate], df_ok[y_coordinate])]
     gdf_ok = gpd.GeoDataFrame(df_ok, crs = crs, geometry = geometry)
 
@@ -30,16 +30,16 @@ def add_risk_factor(df_addresses) :
     print("Joining risk map to addresses...")
     print(f"{len(gdf)} addresses in geodataframe")
     risk_gdf = gpd.sjoin(gdf, risk_map, op = "within") # returns only points in flooding map
-    print(f"{len(risk_gdf)} addresses in flooding risk zones")
     risk_gdf = risk_gdf[[x_coordinate, y_coordinate, 'RISK_LEVEL', 'TYPEALEA', "OBJECTID", "LOCALID", 'src_file']]
     risk_gdf.columns = [x_coordinate, y_coordinate, 'risk_level', 'alea_type', "map_object_id", "map_local_id", 'map_src_file']
     
     # merge the result to the initial dataframe
     res = pd.merge(gdf, risk_gdf,
-                   on = [x_coordinate, y_coordinate], how = 'left')
+                   on = [x_coordinate, y_coordinate], how = 'left').drop_duplicates()
     res.risk_level = res.risk_level.fillna("No risk")
     
-    print(f"{len(res)} rows returned after join")
+    print(f"{len(res)} rows returned after join with flooding risk map:")
+    print(res.risk_level.value_counts())
 
     return res
 
