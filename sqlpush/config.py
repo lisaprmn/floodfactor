@@ -2,21 +2,26 @@ import argparse
 
 config = {}
 
-parser = argparse.ArgumentParser()
-parser.add_argument('localserver', type=str)
-parser.add_argument('localdatabase', type=str)
-parser.add_argument('inputfilepath', type=str)
-#args = parser.parse_args()
-
 # Settings for local filepath
-inputfilepath = 'belgium_addresses.csv'
+inputfilepath = "belgium_addresses.csv"
+floodingmap = "BE_flooding_map.zip"
+
+# name of the coordinates columns
+x_coordinate = "EPSG:31370_x"
+y_coordinate = "EPSG:31370_y"
+
+# coordinates system used in flooding risk map
+crs = "EPSG:31370"
 
 # Push types
 config['batchsize'] = 500000  # batch size of data pushed (number of rows), reduce to avoid database timeout error
 config['ts_localpush_bool'] = True  # False to push to cloud database, True to push to local SQL Server
 
 # Settings local database for SQL Server
-config.update({'localserver': "BE3097427W2",
+parser = argparse.ArgumentParser()
+parser.add_argument('localserver', type=str)
+args = parser.parse_args()
+config.update({'localserver': args.localserver,
                'localdatabase': 'Flood_factor'})
 
 # Settings cloud database
