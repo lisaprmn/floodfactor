@@ -19,9 +19,9 @@ config['ts_localpush_bool'] = True  # False to push to cloud database, True to p
 
 # Settings local database for SQL Server
 parser = argparse.ArgumentParser()
-parser.add_argument('localserver', type=str)
-args = parser.parse_args()
-config.update({'localserver': args.localserver,
+#parser.add_argument('localserver', type=str)
+#args = parser.parse_args()
+config.update({'localserver': "BE3097427W2",
                'localdatabase': 'Flood_factor'})
 
 # Settings cloud database
