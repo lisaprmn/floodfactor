@@ -5,6 +5,8 @@ config = {}
 # Settings for local filepath
 inputfilepath = "belgium_addresses.csv"
 floodingmap = "BE_flooding_map.zip"
+img_folder = "C:\\Users\\ZA796CN\\OneDrive - EY\\Documents\\FloodFactor\\floodfactor\\img"
+data_folder = "C:\\Users\\ZA796CN\\OneDrive - EY\\Documents\\FloodFactor\\floodfactor\\data"
 
 # name of the coordinates columns
 x_coordinate = "EPSG:31370_x"
