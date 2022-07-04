@@ -19,7 +19,8 @@ CREATE TABLE [dbo].[belgium_addresses]
 	  [streetname_fr] NVARCHAR(500),
 	  [streetname_nl] NVARCHAR(500),
 	  [region_code] NVARCHAR(255),
-	  [status] NVARCHAR(50)
+	  [status] NVARCHAR(50),
+	  [flood_factor] NVARCHAR(50)
 )
 
 CREATE TABLE [dbo].[flooding_risk]
