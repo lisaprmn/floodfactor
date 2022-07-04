@@ -1,0 +1,8 @@
+
+sqlpush/__pycache__/add_flood_factor.cpython-39.pyc
+*.zip
+*.pyc
+*.csv
+*.docx
+*.xml
+xmlconvert/conversion.log
