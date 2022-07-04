@@ -4,3 +4,4 @@ sqlpush/belgium_addresses.csv
 sqlpush/BE_flooding_map.zip
 
 sqlpush/__pycache__/
+get_flooding_risk/__pycache__
