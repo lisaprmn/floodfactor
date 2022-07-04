@@ -1,8 +1,8 @@
 
 # path to folders
 
-data_folder = "C:\\Users\\ZA796CN\\OneDrive - EY\\Documents\\"
-img_folder = "C:\\Users\\ZA796CN\\OneDrive - EY\\Documents\\"
+data_folder = "C:\\Users\\ZA796CN\\OneDrive - EY\\Documents\\FloodFactor\\floodfactor\\data"
+img_folder = "C:\\Users\\ZA796CN\\OneDrive - EY\\Documents\\FloodFactor\\floodfactor\\img"
 
 
 

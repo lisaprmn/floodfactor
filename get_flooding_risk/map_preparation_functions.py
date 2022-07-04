@@ -1,5 +1,9 @@
 import os
+import shutil
+import tempfile
+from pathlib import Path
 import pandas as pd
+import numpy as np
 import geopandas as gpd
 from matplotlib import pyplot as plt
 from config import *
@@ -45,6 +49,20 @@ def plot_map(gdf, title, img_name, show_image = False) :
 
     if show_image == True :
         plt.show()
+
+
+
+def export_map(input_map, output_file_name) :
+
+    file_path = os.path.join(data_folder, 'output_file_name')
+    print(f"\nDataset being saved to {file_path}...")
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_dir = Path(temp_dir)
+        print(f"outputting in temp directory {temp_dir}")
+        input_map.drop(labels = ["RGB"], axis = 1).to_file(filename = temp_dir, driver = 'ESRI Shapefile')
+        archiveFile = shutil.make_archive(file_path, 'zip', temp_dir)
+        shutil.rmtree(temp_dir)
 
 
 def map_wallonia() :
@@ -97,7 +115,20 @@ def map_flanders() :
 
     return VLAANDEREN_selection
 
+def map_brussels() :
+    print("import data for Brussels")
+    bxl_file = os.path.join(data_folder, "Brussels", "NaturalRiskZones_HazardArea.gml")
+    bxl_map = gpd.read_file(bxl_file)
+    bxl_map['src_file'] = "NaturalRiskZones_HazardArea.gml"
+
+    for c in ['description', 'beginLifeSpanVersion', 'determinationMethod', 'namespace', 'likelihoodOfOccurrence', 'magnitudeOrIntensity'] :
+        print(f"\n--> values for column {c}:")
+        print(bxl_map[c].value_counts())
+
+    return bxl_map
+
 
 if __name__ == "__main__" :
-    WALLONIE_selection = map_wallonia()
-    VLAANDEREN_selection = map_flanders()
+    # WALLONIE_selection = map_wallonia()
+    # VLAANDEREN_selection = map_flanders()
+    bxl_map = map_brussels()
