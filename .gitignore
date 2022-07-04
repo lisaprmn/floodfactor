@@ -6,3 +6,9 @@ sqlpush/__pycache__/add_flood_factor.cpython-39.pyc
 *.docx
 *.xml
 xmlconvert/conversion.log
+data/
+xmlconvert/
+sqlpush/belgium_addresses.csv
+sqlpush/BE_flooding_map.zip
+sqlpush/__pycache__/
+xmldir.zip
